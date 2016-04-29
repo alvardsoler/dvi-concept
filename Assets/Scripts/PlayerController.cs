@@ -19,24 +19,22 @@ public class PlayerController : MonoBehaviour
 	// rotatin
 	public float rotateSpeed;
 
-	private Gun gun;
+	private Weapon weapon;
     
 	private float h;
 	private float v;
 	private float h_r;
 	private float v_r;
 	private Rigidbody rigid;
-    
 
-	// jump
-	public float jumpCooldown = 1.0f;
-	public float jumpHeight = 5f;
-	private float timeToNextJump = 0;
+	// stats
+	public float lifePoints = 100;
+
 
 	void Awake ()
 	{		
 		speed = walkSpeed;
-		gun = gameObject.GetComponentInChildren<Gun> ();
+		weapon = gameObject.GetComponentInChildren<Weapon> ();
 		rigid = GetComponent<Rigidbody> ();
 	}
 
@@ -51,8 +49,7 @@ public class PlayerController : MonoBehaviour
 
 		Move ();
 		if (playingWithPad) {
-			if (Input.GetAxis ("fire") == -1) {
-				Debug.Log ("fire :" + Input.GetAxis ("fire"));
+			if (Input.GetAxis ("fire") == -1) {				
 				Fire ();
 			}
 		} else {
@@ -61,24 +58,14 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	private void JumpManagement ()
-	{		
-		if (rigid.velocity.y < 10) {
-			if (timeToNextJump > 0)
-				timeToNextJump -= Time.deltaTime;
-		}
-		if (Input.GetButton ("jump")) {
-			if (timeToNextJump <= 0) {
-				rigid.velocity = new Vector3 (0f, jumpHeight, 0);
-				timeToNextJump = jumpCooldown;
-			}
-		}
-        
+	public Weapon getWeapon ()
+	{
+		return weapon;
 	}
 
 	private void Fire ()
 	{
-		gun.Fire ();
+		weapon.Fire ();
 	}
 
 	private void Rotate ()
