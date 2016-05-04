@@ -43,7 +43,8 @@ public class Enemy : MonoBehaviour
 	}
 
 	public void hit (float dmg)
-	{		
+	{
+        Debug.Log("enemy hitted, lifepoints: " + lifePoints);
 		lifePoints = lifePoints - dmg;
 		if (lifePoints <= 0) {
 			die ();
@@ -52,7 +53,7 @@ public class Enemy : MonoBehaviour
 
 	private void die ()
 	{
-		
+        Debug.Log("i must die but i dont want to");
 	}
 
 

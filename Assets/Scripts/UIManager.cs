@@ -18,6 +18,9 @@ public class UIManager : MonoBehaviour
 	void Update ()
 	{
 		life.text = "Life: " + GameManager.getInstance ().player.lifePoints;
-		ammo.text = "Ammo: " + GameManager.getInstance ().player.getWeapon ().ammo + "/" + GameManager.getInstance ().player.getWeapon ().maxAmmo;
+        if (GameManager.getInstance().player.getWeapon().maxAmmo == 0)
+            ammo.text = "Ammo: infinite";
+        else
+		    ammo.text = "Ammo: " + GameManager.getInstance ().player.getWeapon ().ammo + "/" + GameManager.getInstance ().player.getWeapon ().maxAmmo;
 	}
 }
