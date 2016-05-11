@@ -63,6 +63,11 @@ public class PlayerController : MonoBehaviour
 		return weapon;
 	}
 
+	public void Hit (float dmg)
+	{
+		lifePoints -= dmg;
+	}
+
 	private void Fire ()
 	{
 		weapon.Fire ();
@@ -90,10 +95,10 @@ public class PlayerController : MonoBehaviour
 			rigid.MovePosition (transform.position + movement);
 		} else {
 			rigid.velocity = transform.forward * speed * v;	
-		}
-
-
+		}			
 	}
+
+
 
 	public bool IsFlying ()
 	{

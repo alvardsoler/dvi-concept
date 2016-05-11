@@ -16,14 +16,13 @@ public class Projectil : MonoBehaviour
 		Destroy (gameObject, 2f);
 	}
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag.Equals("Enemy"))
-        {
-            Enemy e = other.gameObject.GetComponent<Enemy>();
-            e.hit(damage);
-            Destroy(this);
-        }
-    }
+	void OnTriggerEnter (Collider other)
+	{
+		if (other.gameObject.tag.Equals ("Enemy")) {
+			AnimatedEnemy e = other.gameObject.GetComponent<AnimatedEnemy> ();
+			e.hit (damage);
+			Destroy (this);
+		}
+	}
 	
 }

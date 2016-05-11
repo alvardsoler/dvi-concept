@@ -4,98 +4,80 @@ using System.Collections;
 public class Enemy : MonoBehaviour
 {
 
-    public Transform player;
-    public float playerDistance;
+	protected Transform player;
+	protected float playerDistance;
 
-    public float lifePoints;
-    public float damage;
-    public float speed;
-    public float rotationDumping;
-    public float chaseStartRan;
+	protected float lifePoints;
+	protected  float damage;
+	protected float speed;
+	protected float rotationDumping;
+	protected float chaseStartRan;
 
-    private bool animated;
-    private Animator animator;
+	protected float lastAttack;
+	protected float attackInterval = 2f;
 
-    private float lastAttack;
-    private float attackInterval = 2f;
-    void Start()
-    {
-        animated = (GetComponentInChildren<Animator>()) ? true : false;
-        if (animated) animator = GetComponentInChildren<Animator>();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (lifePoints > 0)
-        {
+	void Start ()
+	{
+		
+	}
+	// Update is called once per frame
+	void Update ()
+	{
+		if (lifePoints > 0) {
           
 
-            playerDistance = Vector3.Distance(player.position, transform.position);
+			playerDistance = Vector3.Distance (player.position, transform.position);
 
-            if (playerDistance < 15f)
-            {
-                lookAtPlayer();
-            }
-            else
-            {
-                transform.rotation = Quaternion.identity;
-            }
+			if (playerDistance < 15f) {
+				lookAtPlayer ();
+			} else {
+				transform.rotation = Quaternion.identity;
+			}
 
-            if (playerDistance < 12f && playerDistance > 1f)
-            {
-                chase();
-            }
-            else if (playerDistance <= 1f)
-            {
-                if (animated) animator.SetFloat("Speed", 0f);
-                attack();
-            }
-            else
-            {
-                if (animated) animator.SetFloat("Speed", 0f);
-            }
-        }
-    }
-    void attack()
-    {
-        if (Time.time - lastAttack > attackInterval)
-        {
-            lastAttack = Time.time;
-            Debug.Log("attacking");
-            if (animated)
-            {
-                animator.SetTrigger("Attack");                
-            }
-        }
-    }
-    void chase()
-    {
-        if (animated) animator.SetFloat("Speed", 1f);
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
-    }
+			if (playerDistance < 12f && playerDistance > 1f) {
+				chase ();
+			} else if (playerDistance <= 1f) {
+				attack ();
+			}
+		}
+	}
 
-    void lookAtPlayer()
-    {
-        Quaternion rotation = Quaternion.LookRotation(player.position - transform.position);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationDumping);
-    }
+	public	virtual void attack ()
+	{
+		if (Time.time - lastAttack > attackInterval) {
+			lastAttack = Time.time;
+			Debug.Log ("attacking");
 
-    public void hit(float dmg)
-    {
-        Debug.Log("enemy hitted, lifepoints: " + lifePoints);
-        lifePoints = lifePoints - dmg;
-        if (lifePoints <= 0)
-        {
-            die();
-        }
-    }
+		}
+	}
 
-    private void die()
-    {
-        if (animated) animator.SetTrigger("Death");
-        Destroy(gameObject, 3f);
-        Debug.Log("i must die but i dont want to");
-    }
+	public	virtual	void chase ()
+	{
+		
+		transform.Translate (Vector3.forward * Time.deltaTime * speed);
+	}
+
+	public	virtual	void lookAtPlayer ()
+	{
+		Quaternion rotation = Quaternion.LookRotation (player.position - transform.position);
+		transform.rotation = Quaternion.Slerp (transform.rotation, rotation, Time.deltaTime * rotationDumping);
+	}
+
+	public void hit (float dmg)
+	{
+		Debug.Log ("enemy hitted, lifepoints: " + lifePoints);
+		lifePoints = lifePoints - dmg;
+		if (lifePoints <= 0) {
+			die ();
+		}
+	}
+
+	public virtual  void die ()
+	{
+		
+		Destroy (gameObject, 3f);
+		Debug.Log ("i must die but i dont want to");
+	}
 
 
 }

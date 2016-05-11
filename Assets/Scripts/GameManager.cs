@@ -7,14 +7,27 @@ public class GameManager : MonoBehaviour
 	private static GameManager instance;
 
 
-	public PlayerController player;
+	public Transform player;
+
+	private PlayerController playerController;
 	public UIManager uiManager;
 
-	public void Start ()
+	public void Awake ()
 	{
 		if (instance == null)
 			instance = this;
-		
+
+
+	}
+
+	void Start ()
+	{
+		Config ();
+	}
+
+	private void Config ()
+	{
+		playerController = player.GetComponent<PlayerController> ();
 	}
 
 	public static GameManager getInstance ()
@@ -29,5 +42,15 @@ public class GameManager : MonoBehaviour
 	void Update ()
 	{
 	
+	}
+
+	public PlayerController getPlayerController ()
+	{
+		return playerController;
+	}
+
+	public Transform getPlayer ()
+	{
+		return player;
 	}
 }

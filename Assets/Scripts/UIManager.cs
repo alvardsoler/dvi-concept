@@ -17,10 +17,10 @@ public class UIManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		life.text = "Life: " + GameManager.getInstance ().player.lifePoints;
-        if (GameManager.getInstance().player.getWeapon().maxAmmo == 0)
-            ammo.text = "Ammo: infinite";
-        else
-		    ammo.text = "Ammo: " + GameManager.getInstance ().player.getWeapon ().ammo + "/" + GameManager.getInstance ().player.getWeapon ().maxAmmo;
+		life.text = "Life: " + GameManager.getInstance ().getPlayerController ().lifePoints;
+		if (GameManager.getInstance ().getPlayerController ().getWeapon ().maxAmmo == 0)
+			ammo.text = "Ammo: infinite";
+		else
+			ammo.text = "Ammo: " + GameManager.getInstance ().getPlayerController ().getWeapon ().ammo + "/" + GameManager.getInstance ().getPlayerController ().getWeapon ().maxAmmo;
 	}
 }
