@@ -32,7 +32,6 @@ public class AnimatedEnemy : MonoBehaviour
 	{
 		if (lifePoints > 0) {
 			Debug.Log ("animated update");
-			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo (0);
 
 			playerDistance = Vector3.Distance (player.position, transform.position);
 
@@ -58,17 +57,18 @@ public class AnimatedEnemy : MonoBehaviour
 		if (Time.time - lastAttack > attackInterval) {
 			lastAttack = Time.time;
 			Debug.Log ("attacking");
-			player.GetComponent<PlayerController> ().Hit (this.damage);
-            
-			animator.SetTrigger (attackHash);
-            
+			player.GetComponent<PlayerController> ().Hit (this.damage);            
+			animator.SetTrigger (attackHash);            
 		}
 	}
 
 	public  void chase ()
 	{
+		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo (0);
+
 		animator.SetFloat ("Speed", 1f);
-		transform.Translate (Vector3.forward * Time.deltaTime * speed);
+		if (stateInfo.IsName ("Run"))
+			transform.Translate (Vector3.forward * Time.deltaTime * speed);
 	}
 
 	public  void lookAtPlayer ()
