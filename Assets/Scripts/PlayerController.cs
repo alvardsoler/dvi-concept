@@ -20,9 +20,10 @@ public class PlayerController : MonoBehaviour
 	// rotatin
 	public float rotateSpeed;
 
-    // weapons
-    public List<Weapon> weapons;
-    private int weaponSelected;
+	// weapons
+	/*public List<Weapon> weapons;*/
+	public Weapon[] weapons;
+	private int weaponSelected;
 	private Weapon weapon;
     
 	private float h;
@@ -37,10 +38,11 @@ public class PlayerController : MonoBehaviour
 
 	void Awake ()
 	{
-        weapons = new List<Weapon>(1);
+		//weapons = new List<Weapon> (1);
 		speed = walkSpeed;
-        weapons.Add(gameObject.GetComponentInChildren<Weapon>());
-        weaponSelected = 0;
+		weapons = gameObject.GetComponentsInChildren<Weapon> ();
+		//weapons.Add(gameObject.GetComponentInChildren<Weapon>());
+		weaponSelected = 0;
 		//weapon = ;
 		rigid = GetComponent<Rigidbody> ();
 	}
@@ -51,7 +53,8 @@ public class PlayerController : MonoBehaviour
 		v = Input.GetAxis ("Vertical"); // left stick (movement)
 		h_r = Input.GetAxis ("Horizontal_right"); // right stick (rotate)
 		v_r = Input.GetAxis ("Vertical_right"); // right stick (rotate)
-
+		if (Input.GetButtonDown ("next_weapon"))
+			nextWeapon ();
 		Rotate ();
 
 		Move ();
@@ -67,7 +70,22 @@ public class PlayerController : MonoBehaviour
 
 	public Weapon getWeapon ()
 	{
-		return weapons[weaponSelected];
+		return weapons [weaponSelected];
+	}
+
+	public void nextWeapon ()
+	{
+		Debug.Log ("next weapon");
+		if (weapons.Length > 1) {
+			weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			weaponSelected++;
+
+			// get first weapon
+			if (weaponSelected >= weapons.Length)
+				weaponSelected = 0;
+			
+			weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = true;
+		}
 	}
 
 	public void Hit (float dmg)
@@ -77,8 +95,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Fire ()
 	{
-        weapons[weaponSelected].Fire();
-        //weapon.Fire ();
+		weapons [weaponSelected].Fire ();
+		//weapon.Fire ();
 	}
 
 	private void Rotate ()

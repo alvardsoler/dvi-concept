@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
 	void Update ()
 	{
 		if (lifePoints > 0) {
-          
+			Debug.Log ("normal update");
 
 			playerDistance = Vector3.Distance (player.position, transform.position);
 
