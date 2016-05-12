@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 
 	public Text life;
 	public Text ammo;
+	public Text weapon;
 
 	// Use this for initialization
 	void Start ()
@@ -22,5 +23,7 @@ public class UIManager : MonoBehaviour
 			ammo.text = "Ammo: infinite";
 		else
 			ammo.text = "Ammo: " + GameManager.getInstance ().getPlayerController ().getWeapon ().ammo + "/" + GameManager.getInstance ().getPlayerController ().getWeapon ().maxAmmo;
+
+		weapon.text = GameManager.getInstance ().getPlayerController ().getWeapon ().name;
 	}
 }

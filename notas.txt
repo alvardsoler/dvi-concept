@@ -1,0 +1,2 @@
+Fuente: http://www.dafont.com/es/airstrike.font
+imagen para la textura del laser http://wiki.unity3d.com/index.php/Shield

@@ -41,6 +41,8 @@ public class PlayerController : MonoBehaviour
 		//weapons = new List<Weapon> (1);
 		speed = walkSpeed;
 		weapons = gameObject.GetComponentsInChildren<Weapon> ();
+		for (int i = 1; i < weapons.Length; i++)
+			weapons [i].gameObject.SetActive (false);
 		//weapons.Add(gameObject.GetComponentInChildren<Weapon>());
 		weaponSelected = 0;
 		//weapon = ;
@@ -77,14 +79,16 @@ public class PlayerController : MonoBehaviour
 	{
 		Debug.Log ("next weapon");
 		if (weapons.Length > 1) {
-			weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = false;
+			/*weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = false;*/
+			weapons [weaponSelected].gameObject.SetActive (false);
 			weaponSelected++;
 
 			// get first weapon
 			if (weaponSelected >= weapons.Length)
 				weaponSelected = 0;
 			
-			weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = true;
+			/*weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = true;*/
+			weapons [weaponSelected].gameObject.SetActive (true);
 		}
 	}
 
