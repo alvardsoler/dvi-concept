@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
 	public float damage;
 	public GameObject projectile;
 	public GameObject bulletHole;
+    public string name;
 
 	public float shotInterval;
 	protected float lastShot;

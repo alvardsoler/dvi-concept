@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class PlayerController : MonoBehaviour
 	// rotatin
 	public float rotateSpeed;
 
+    // weapons
+    public List<Weapon> weapons;
+    private int weaponSelected;
 	private Weapon weapon;
     
 	private float h;
@@ -32,9 +36,12 @@ public class PlayerController : MonoBehaviour
 
 
 	void Awake ()
-	{		
+	{
+        weapons = new List<Weapon>(1);
 		speed = walkSpeed;
-		weapon = gameObject.GetComponentInChildren<Weapon> ();
+        weapons.Add(gameObject.GetComponentInChildren<Weapon>());
+        weaponSelected = 0;
+		//weapon = ;
 		rigid = GetComponent<Rigidbody> ();
 	}
 
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
 	public Weapon getWeapon ()
 	{
-		return weapon;
+		return weapons[weaponSelected];
 	}
 
 	public void Hit (float dmg)
@@ -70,7 +77,8 @@ public class PlayerController : MonoBehaviour
 
 	private void Fire ()
 	{
-		weapon.Fire ();
+        weapons[weaponSelected].Fire();
+        //weapon.Fire ();
 	}
 
 	private void Rotate ()

@@ -17,33 +17,36 @@ public class AnimatedEnemy : MonoBehaviour
 	private Animator animator;
 
 	private float lastAttack;
-	private float attackInterval = 2f;
+	private float attackInterval = 2.9f;
 
 	private int attackHash = Animator.StringToHash ("Attack");
 	private int deathHash = Animator.StringToHash ("Death");
+
+    private Spawner spawner;
 
 	void Start ()
 	{
 		player = GameManager.getInstance ().getPlayer ();
 		animator = GetComponentInChildren<Animator> ();
+        if (transform.parent && transform.parent.GetComponent<Spawner>())
+            spawner = transform.parent.GetComponent<Spawner>();
 	}
 	// Update is called once per frame
 	void Update ()
 	{
 		if (lifePoints > 0) {
-			Debug.Log ("animated update");
-
+			
 			playerDistance = Vector3.Distance (player.position, transform.position);
 
 			if (playerDistance < 15f) {
 				lookAtPlayer ();
-			} else {
+			} /*else {
 				transform.rotation = Quaternion.identity;
-			}
+			}*/
 
-			if (playerDistance < 12f && playerDistance > 1.2f) {
+			if (playerDistance < 12f && playerDistance > 4f) {
 				chase ();
-			} else if (playerDistance <= 1.2f) {
+			} else if (playerDistance <= 4f) {
 				animator.SetFloat ("Speed", 0f);
 				attack ();
 			} else {
@@ -57,6 +60,7 @@ public class AnimatedEnemy : MonoBehaviour
 		if (Time.time - lastAttack > attackInterval) {
 			lastAttack = Time.time;
 			Debug.Log ("attacking");
+            // attack when sword descend?
 			player.GetComponent<PlayerController> ().Hit (this.damage);            
 			animator.SetTrigger (attackHash);            
 		}
@@ -89,7 +93,9 @@ public class AnimatedEnemy : MonoBehaviour
 	public  void die ()
 	{
 		animator.SetTrigger (deathHash);
-		Destroy (gameObject, 2.5f);
+        // after animator
+        Destroy (gameObject, 2f);
+        if (spawner != null) spawner.criatureDestroyed(this.gameObject);
 		Debug.Log ("i must die but i dont want to");
 	}
 
