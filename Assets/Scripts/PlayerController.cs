@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
 	// stats
 	public float lifePoints = 100;
+	public float maxLifePoints = 100;
 
 
 	void Awake ()
@@ -55,8 +56,12 @@ public class PlayerController : MonoBehaviour
 		v = Input.GetAxis ("Vertical"); // left stick (movement)
 		h_r = Input.GetAxis ("Horizontal_right"); // right stick (rotate)
 		v_r = Input.GetAxis ("Vertical_right"); // right stick (rotate)
+
 		if (Input.GetButtonDown ("next_weapon"))
 			nextWeapon ();
+		else if (Input.GetButtonDown ("previous_weapon")) {
+			previousWeapon ();
+		}
 		Rotate ();
 
 		Move ();
@@ -86,7 +91,24 @@ public class PlayerController : MonoBehaviour
 			// get first weapon
 			if (weaponSelected >= weapons.Length)
 				weaponSelected = 0;
-			
+
+			/*weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = true;*/
+			weapons [weaponSelected].gameObject.SetActive (true);
+		}
+	}
+
+	public void previousWeapon ()
+	{
+		Debug.Log ("prev weapon");
+		if (weapons.Length > 1) {
+
+			weapons [weaponSelected].gameObject.SetActive (false);
+			weaponSelected--;
+
+			// get first weapon
+			if (weaponSelected < 0)
+				weaponSelected = weapons.Length - 1;
+
 			/*weapons [weaponSelected].gameObject.GetComponent<MeshRenderer> ().enabled = true;*/
 			weapons [weaponSelected].gameObject.SetActive (true);
 		}
@@ -102,6 +124,7 @@ public class PlayerController : MonoBehaviour
 		weapons [weaponSelected].Fire ();
 		//weapon.Fire ();
 	}
+
 
 	private void Rotate ()
 	{
@@ -128,7 +151,21 @@ public class PlayerController : MonoBehaviour
 		}			
 	}
 
+	public bool incLife (float amount)
+	{
+		if (lifePoints < maxLifePoints) {
+			lifePoints += amount;
+			if (lifePoints > maxLifePoints)
+				lifePoints = maxLifePoints;
+			return true;
+		} else
+			return false;
+	}
 
+	public bool incAmmo (float amount)
+	{
+		return weapons [weaponSelected].incAmmo ((int)amount);
+	}
 
 	public bool IsFlying ()
 	{

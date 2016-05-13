@@ -18,10 +18,13 @@ public class Projectil : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
+		Debug.Log ("colliding a projectile");
 		if (other.gameObject.tag.Equals ("Enemy")) {
-            other.SendMessage("hit", damage);
+			other.SendMessage ("hit", damage);
 			/*AnimatedEnemy e = other.gameObject.GetComponent<AnimatedEnemy> ();
 			e.hit (damage);*/
+			Destroy (this);
+		} else {
 			Destroy (this);
 		}
 	}

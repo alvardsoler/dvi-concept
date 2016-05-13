@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
 	}
 
 
+	public void playSoundOfPowerUp (AudioClip clip, Vector3 pos)
+	{
+		AudioSource.PlayClipAtPoint (clip, pos);
+	}
 
 	// Update is called once per frame
 	void Update ()

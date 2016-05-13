@@ -9,16 +9,11 @@ public class UIManager : MonoBehaviour
 	public Text ammo;
 	public Text weapon;
 
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
-	
 	// Update is called once per frame
-	void Update ()
+	void OnGUI ()
 	{
 		life.text = "Life: " + GameManager.getInstance ().getPlayerController ().lifePoints;
+	
 		if (GameManager.getInstance ().getPlayerController ().getWeapon ().maxAmmo == 0)
 			ammo.text = "Ammo: infinite";
 		else

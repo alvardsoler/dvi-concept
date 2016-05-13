@@ -1,2 +1,4 @@
 Fuente: http://www.dafont.com/es/airstrike.font
 imagen para la textura del laser http://wiki.unity3d.com/index.php/Shield
+bullet 3d model http://tf3dm.com/3d-model/ak-47-bullet-69210.html
+nuka cola http://tf3dm.com/3d-model/battlelord-16905.html
