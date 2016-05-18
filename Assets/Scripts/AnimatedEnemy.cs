@@ -11,8 +11,11 @@ public class AnimatedEnemy : MonoBehaviour
 	public float damage;
 	public float speed;
 	public float rotationDumping;
-	public float chaseStartRan;
+	
 
+    public float lookAtDistance; // 15f
+    public float chaseDistance; // 12f
+    public float attackDistance; //4f
     
 	private Animator animator;
 
@@ -38,15 +41,15 @@ public class AnimatedEnemy : MonoBehaviour
 			
 			playerDistance = Vector3.Distance (player.position, transform.position);
 
-			if (playerDistance < 15f) {
+			if (playerDistance < lookAtDistance) {
 				lookAtPlayer ();
 			} /*else {
 				transform.rotation = Quaternion.identity;
 			}*/
 
-			if (playerDistance < 12f && playerDistance > 4f) {
+			if (playerDistance < chaseDistance && playerDistance > attackDistance) {
 				chase ();
-			} else if (playerDistance <= 4f) {
+			} else if (playerDistance <= attackDistance) {
 				animator.SetFloat ("Speed", 0f);
 				attack ();
 			} else {
