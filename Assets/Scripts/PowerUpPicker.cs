@@ -44,14 +44,12 @@ public class PowerUpPicker : MonoBehaviour
 				break;
 			}
 				
-			if (r && audioS && !audioS.isPlaying) {
-				Debug.Log ("play");
-				audioS.Play ();
-			}
 			if (r) {
-				GameManager.getInstance ().playSoundOfPowerUp (audioS.clip, transform.position);
+				if (audioS && !audioS.isPlaying) {
+					Debug.Log ("play");
+					GameManager.getInstance ().playSoundOfPowerUp (audioS.clip, transform.position);
+				}
 				Destroy (transform.parent.gameObject);
-
 			}
 		}
 	}
