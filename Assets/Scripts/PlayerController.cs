@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 	// rotatin
 	public float rotateSpeed;
 
+	private Animator animator;
+
 	// weapons
 	/*public List<Weapon> weapons;*/
 	public Weapon[] weapons;
@@ -37,21 +39,47 @@ public class PlayerController : MonoBehaviour
 	public float maxLifePoints = 100;
 
 
-	void Awake ()
+
+	private bool alreadyDead = false;
+
+	void Start ()
 	{
 		//weapons = new List<Weapon> (1);
 		speed = walkSpeed;
+		animator = GetComponent<Animator> ();
+
 		weapons = gameObject.GetComponentsInChildren<Weapon> ();
-		for (int i = 1; i < weapons.Length; i++)
+
+		/*gameObject.GetComponentsInChildren*/
+		for (int i = 1; i < weapons.Length; i++) {			
+			Debug.Log ("get");
 			weapons [i].gameObject.SetActive (false);
+		}
+		
 		//weapons.Add(gameObject.GetComponentInChildren<Weapon>());
 		weaponSelected = 0;
 		//weapon = ;
 		rigid = GetComponent<Rigidbody> ();
 	}
 
+	void DeathFinished ()
+	{
+		Debug.Log ("Player dead");
+	}
+
+	void Die ()
+	{
+		if (!alreadyDead) {
+			alreadyDead = true;
+
+			animator.SetTrigger ("Death");
+		}
+	}
+
 	void FixedUpdate ()
 	{
+		if (lifePoints <= 0)
+			Die ();
 		h = Input.GetAxis ("Horizontal"); // left stick (movement)
 		v = Input.GetAxis ("Vertical"); // left stick (movement)
 		h_r = Input.GetAxis ("Horizontal_right"); // right stick (rotate)
@@ -65,6 +93,7 @@ public class PlayerController : MonoBehaviour
 		Rotate ();
 
 		Move ();
+
 		if (playingWithPad) {
 			if (Input.GetAxis ("fire") == -1) {				
 				Fire ();
@@ -121,7 +150,10 @@ public class PlayerController : MonoBehaviour
 
 	private void Fire ()
 	{
-		weapons [weaponSelected].Fire ();
+		if (weapons [weaponSelected].Fire ()) {
+			animator.SetTrigger ("Shot");
+		}
+
 		//weapon.Fire ();
 	}
 
@@ -145,10 +177,12 @@ public class PlayerController : MonoBehaviour
 		if (playingWithPad) {
 			movement.Set (h, 0, v);
 			movement = movement.normalized * speed * Time.deltaTime;
+
 			rigid.MovePosition (transform.position + movement);
 		} else {
 			rigid.velocity = transform.forward * speed * v;	
 		}			
+		animator.SetFloat ("Speed", Mathf.Abs (v));
 	}
 
 	public bool incLife (float amount)

@@ -13,9 +13,12 @@ public class AnimatedEnemy : MonoBehaviour
 	public float rotationDumping;
 	
 
-    public float lookAtDistance; // 15f
-    public float chaseDistance; // 12f
-    public float attackDistance; //4f
+	public float lookAtDistance;
+	// 15f
+	public float chaseDistance;
+	// 12f
+	public float attackDistance;
+	//4f
     
 	private Animator animator;
 
@@ -95,15 +98,18 @@ public class AnimatedEnemy : MonoBehaviour
 		}
 	}
 
-	public  void die ()
-	{
-		animator.SetTrigger (deathHash);
-
-		// after animator
-		Destroy (gameObject, 2f);
+	void DeathFinished ()
+	{		
+		Debug.Log ("dead");
 		if (spawner != null)
 			spawner.criatureDestroyed (this.gameObject);
 		
+		Destroy (gameObject);
+	}
+
+	public  void die ()
+	{
+		animator.SetTrigger (deathHash);			
 	}
 
 

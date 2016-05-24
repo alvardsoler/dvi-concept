@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
 			return false;
 	}
 
-	public virtual	void Fire ()
+	public virtual	bool Fire ()
 	{
 		if (Time.time - lastShot > shotInterval && (ammo > 0 || maxAmmo == 0)) {
 			lastShot = Time.time;
@@ -41,7 +41,9 @@ public class Weapon : MonoBehaviour
 			aux.GetComponent<Rigidbody> ().AddForce (force);            
 			if (maxAmmo != 0)
 				ammo--;
-		}
+			return true;
+		} else
+			return false;
 	}
 		
 }
