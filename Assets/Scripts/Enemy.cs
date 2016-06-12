@@ -73,11 +73,11 @@ public class Enemy : MonoBehaviour
 	}
 
 	public virtual  void die ()
-	{
-		
-		Destroy (gameObject, 3f);
+	{        
+        Destroy (gameObject, 3f);
 		Debug.Log ("i must die but i dont want to");
 	}
 
-
+    
+    
 }

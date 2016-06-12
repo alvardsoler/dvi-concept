@@ -27,6 +27,11 @@ public class PowerUpPicker : MonoBehaviour
 		audioS = (GetComponent<AudioSource> ()) ? GetComponent<AudioSource> () : null;
 	}
 
+    public void setAmount(float amount)
+    {
+        this.amount = amount;
+    }
+
 	void OnTriggerEnter (Collider collider)
 	{
 		if (collider.tag == "Player") {

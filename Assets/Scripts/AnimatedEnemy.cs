@@ -30,7 +30,10 @@ public class AnimatedEnemy : MonoBehaviour
 
 	private Spawner spawner;
 
-	void Start ()
+    public GameObject lifePowerUp;
+    public GameObject ammoPowerUp;
+
+    void Start ()
 	{
 		player = GameManager.getInstance ().getPlayer ();
 		animator = GetComponentInChildren<Animator> ();
@@ -103,8 +106,8 @@ public class AnimatedEnemy : MonoBehaviour
 		Debug.Log ("dead");
 		if (spawner != null)
 			spawner.criatureDestroyed (this.gameObject);
-		
-		Destroy (gameObject);
+        dropPowerUp();
+        Destroy (gameObject);
 	}
 
 	public  void die ()
@@ -112,5 +115,92 @@ public class AnimatedEnemy : MonoBehaviour
 		animator.SetTrigger (deathHash);			
 	}
 
+    private void dropPowerUp()
+    {
+        float lp = player.GetComponent<PlayerController>().lifePoints;
+        int ndx = Random.Range(0, 100);
+
+        Debug.Log("Enemy killed. Life Points = " + lp + ", ndx = " + ndx);
+
+        if (lp > 75)
+        {
+            if (ndx < 60) { } //Nada
+            else if (ndx < 80)
+            {
+                // Botiquín
+                createPowerUp(PowerUpPicker.PowerUpType.Life, 5);
+            }
+            else
+            {
+                //Munición
+                createPowerUp(PowerUpPicker.PowerUpType.Ammo, 5);
+            }
+        }
+        else if (lp > 50)
+        {
+            if (ndx < 40) { } //Nada
+            else if (ndx < 70)
+            {
+                // Botiquín
+                createPowerUp(PowerUpPicker.PowerUpType.Life, 10);
+            }
+            else
+            {
+                //Munición
+                createPowerUp(PowerUpPicker.PowerUpType.Ammo, 5);
+            }
+        }
+        else if (lp > 25)
+        {
+            if (ndx < 20) { } //Nada
+            else if (ndx < 65)
+            {
+                // Botiquín
+                createPowerUp(PowerUpPicker.PowerUpType.Life, 15);
+            }
+            else
+            {
+                //Munición
+                createPowerUp(PowerUpPicker.PowerUpType.Ammo, 5);
+            }
+        }
+        else
+        {
+            if (ndx < 10) { } //Nada
+            else if (ndx < 80)
+            {
+                // Botiquín
+                createPowerUp(PowerUpPicker.PowerUpType.Life, 25);
+            }
+            else
+            {
+                //Munición
+                createPowerUp(PowerUpPicker.PowerUpType.Ammo, 5);
+            }
+        }
+    }
+
+    private void createPowerUp(PowerUpPicker.PowerUpType type, float amount)
+    {
+        // Spawn a PowerUp
+        GameObject go = null;
+
+        if (type == PowerUpPicker.PowerUpType.Ammo)
+        {
+            go = Instantiate(ammoPowerUp) as GameObject;
+        }
+        if (type == PowerUpPicker.PowerUpType.Life)
+        {
+            go = Instantiate(lifePowerUp) as GameObject;
+        }
+        
+        PowerUpPicker pup = go.GetComponent<PowerUpPicker>();
+        go.GetComponentInChildren<PowerUpPicker>().setAmount(amount);
+
+        // Set it to the position of the killed enemy
+        Vector3 coordinates = new Vector3(transform.position.x, -3.5f , transform.position.z);
+        go.transform.position = coordinates;
+
+    }
 
 }
