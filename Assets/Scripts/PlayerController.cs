@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -64,7 +65,7 @@ public class PlayerController : MonoBehaviour
 
 	void DeathFinished ()
 	{
-		Debug.Log ("Player dead");
+		SceneManager.LoadScene ("Menu");
 	}
 
 	void Die ()
@@ -182,10 +183,10 @@ public class PlayerController : MonoBehaviour
 		if (playingWithPad) {
 			movement.Set (h, 0, v);
 			movement = movement.normalized * speed * Time.deltaTime;
-
 			rigid.MovePosition (transform.position + movement);
 		} else {
-			rigid.velocity = transform.forward * speed * v;	
+			if (h > 0.1 || v > 0.1)
+				rigid.velocity = transform.forward * speed * v;	
 		}			
 		animator.SetFloat ("Speed", Mathf.Abs (v));
 	}
