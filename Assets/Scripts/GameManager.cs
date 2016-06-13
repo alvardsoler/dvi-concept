@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
 	public Transform player;
 
-	private PlayerController playerController;
+	public PlayerController playerController;
 	public UIManager uiManager;
 
 	public void Awake ()
@@ -27,7 +27,13 @@ public class GameManager : MonoBehaviour
 
 	private void Config ()
 	{
+		player = GameObject.Find ("soldado").gameObject.transform;
+		//if (playerController == null)
 		playerController = player.GetComponent<PlayerController> ();
+		//else {
+		//	player = playerController.transform;
+		//}
+		GameObject.Find ("RTS_Camera").GetComponent<RTS_Cam.RTS_Camera> ().SetTarget (player);
 	}
 
 	public static GameManager getInstance ()
@@ -45,7 +51,11 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		if (player == null) {
+			Debug.Log ("no palyer");
+			Config ();
+		}
+			
 	}
 
 	public PlayerController getPlayerController ()

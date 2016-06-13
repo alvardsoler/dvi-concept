@@ -104,6 +104,11 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void setPosition (Vector3 p)
+	{
+		gameObject.transform.position = p;
+	}
+
 	public Weapon getWeapon ()
 	{
 		return weapons [weaponSelected];
